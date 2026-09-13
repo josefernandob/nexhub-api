@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// RF01: Cadastro de Startups
+model Startup {
+  id          String   @id @default(uuid())
+  name        String
+  cnpj        String?  @unique
+  segment     String   // ex: FinTech, EdTech, HealthTech, Economia Criativa
+  stage       String   // ex: Ideação, MVP, Tração, Escala
+  needs       String   // ex: Investimento Anjo, Mentoria Técnica
+  description String
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// RF02: Cadastro de Investidores / Mentores
+model Investor {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  role         String   // ex: INVESTOR, MENTOR, BOTH
+  interests    String   // ex: FinTech, SaaS, IA
+  ticketSize   Float?   // Ticket médio de investimento
+  availability String?  // Disponibilidade em horas/mês
+  bio          String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
