@@ -6,7 +6,7 @@ export class InvestorController {
   async create(req: Request, res: Response) {
     const { name, email, role, interests, ticketSize, availability, bio } = req.body;
 
-    if (!name || !email || !role || !interests) {
+    if (!name || !email || !role || !interests ) {
       return res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
     }
 

@@ -1,0 +1,76 @@
+### ===================================================
+### VERIFICAÇÃO DE SAÚDE DA API (Health Check)
+### ===================================================
+GET http://localhost:3333/health
+
+
+### ===================================================
+### RF01 - CADASTRO E LISTAGEM DE STARTUPS
+### ===================================================
+
+### 1. Cadastrar Startup 1 (Fintech)
+POST http://localhost:3333/api/startups
+Content-Type: application/json
+
+{
+  "name": "PayFlow",
+  "cnpj": "12.345.678/0001-90",
+  "segment": "Fintech",
+  "stage": "MVP",
+  "needs": "Investimento Anjo e Conexões Comerciais",
+  "description": "Plataforma SaaS para automação de fluxo de caixa e gestão de cobranças para microempresas.",
+  "website": "https://payflow.com.br"
+}
+
+### 2. Cadastrar Startup 2 (Healthtech)
+POST http://localhost:3333/api/startups
+Content-Type: application/json
+
+{
+  "name": "TeleSaúde PE",
+  "cnpj": "98.765.432/0001-10",
+  "segment": "Healthtech",
+  "stage": "Tração",
+  "needs": "Mentoria em Escala e Expansão",
+  "description": "Solução de triagem médica baseada em Inteligência Artificial para redes privadas de saúde.",
+  "website": "https://telesaudepe.com.br"
+}
+
+### 3. Listar Todas as Startups Cadastradas
+GET http://localhost:3333/api/startups
+
+
+### ===================================================
+### RF02 - CADASTRO E LISTAGEM DE INVESTIDORES / MENTORES
+### ===================================================
+
+### 4. Cadastrar Investidor Anjo
+POST http://localhost:3333/api/investors
+Content-Type: application/json
+
+{
+  "name": "Mariana Ramos",
+  "email": "mariana.ramos@vcventure.com",
+  "role": "INVESTOR",
+  "interests": "Fintech, SaaS B2B, Inteligência Artificial",
+  "ticketSize": 50000,
+  "availability": "4 horas/mês",
+  "bio": "Investidora anjo focada em startups em estágio de MVP/Validação no Nordeste."
+}
+
+### 5. Cadastrar Mentor Técnico
+POST http://localhost:3333/api/investors
+Content-Type: application/json
+
+{
+  "name": "Roberto Albuquerque",
+  "email": "roberto.tech@mentores.org",
+  "role": "MENTOR",
+  "interests": "Arquitetura de Software, Cloud Computing, Healthtech",
+  "ticketSize": 0,
+  "availability": "8 horas/mês",
+  "bio": "Engenheiro de Software Sênior com 15 anos de experiência ajudando startups a estruturarem suas APIs."
+}
+
+### 6. Listar Todos os Investidores/Mentores Cadastrados
+GET http://localhost:3333/api/investors
