@@ -8,6 +8,19 @@ import { app } from "../src/app";
 import { db } from "../src/lib/db";
 import { issueToken } from "../src/lib/security";
 
+test("preflight permite o frontend publicado no cadastro", async () => {
+  await request(app)
+    .options("/api/auth/register")
+    .set("Origin", "https://nexhub-alpha.vercel.app")
+    .set("Access-Control-Request-Method", "POST")
+    .set("Access-Control-Request-Headers", "content-type")
+    .expect(204)
+    .expect(
+      "Access-Control-Allow-Origin",
+      "https://nexhub-alpha.vercel.app",
+    );
+});
+
 test("fluxo persistente: cadastro, moderação, recomendação, conexão, conversa e reunião", async () => {
   const ids: string[] = [];
   const profileIds: string[] = [];
