@@ -1,56 +1,22 @@
-### 1. Login - ADMIN
-# @name loginAdmin
-POST http://localhost:3333/api/auth/login-teste
+@base = http://localhost:3333/api
+# Use apenas credenciais fictícias locais; não salve senha/token reais no Git.
+@demoPassword = PREENCHA_LOCALMENTE
+
+### Login real
+# @name login
+POST {{base}}/auth/login
 Content-Type: application/json
 
-{
-  "id": "1",
-  "email": "admin@nexhub.com",
-  "role": "ADMIN"
-}
+{"email":"investidor@nexhub.example","senha":"{{demoPassword}}"}
 
-### 2. Login - STARTUP
-# @name loginStartup
-POST http://localhost:3333/api/auth/login-teste
-Content-Type: application/json
+### Perfil próprio
+GET {{base}}/auth/me
+Authorization: Bearer {{login.response.body.access_token}}
 
-{
-  "id": "2",
-  "email": "startup@nexhub.com",
-  "role": "STARTUP"
-}
+### Recomendações
+GET {{base}}/recommendations
+Authorization: Bearer {{login.response.body.access_token}}
 
-### 3. Login - INVESTIDOR
-# @name loginInvestidor
-POST http://localhost:3333/api/auth/login-teste
-Content-Type: application/json
-
-{
-  "id": "3",
-  "email": "investidor@nexhub.com",
-  "role": "INVESTIDOR"
-}
-
-### ----------------------------------------------------
-### TESTES DE ACESSO POR PERFIL (RBAC)
-### ----------------------------------------------------
-
-### 4. Rota Apenas ADMIN (Sucesso com Admin)
-# Cole o token gerado no Login 1
-GET http://localhost:3333/api/auth/admin-only
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiZW1haWwiOiJhZG1pbkBuZXhodWIuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzkwMDE2NDgxLCJleHAiOjE3OTAxMDI4ODF9.C7ZTe2YUru5lSYZIPpQEY72m3tmGR1v3oc64kGTjDYg
-
-### 5. Rota Dashboard STARTUP (Sucesso com Startup)
-# Cole o token gerado no Login 2
-GET http://localhost:3333/api/auth/startup-dashboard
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiZW1haWwiOiJzdGFydHVwQG5leGh1Yi5jb20iLCJyb2xlIjoiU1RBUlRVUCIsImlhdCI6MTc5MDAxNjUzMywiZXhwIjoxNzkwMTAyOTMzfQ.P6QnVvj5k8CSP34g-yNQRoTIm47ciqpCFOmhiw5qFY4
-
-### 6. Rota Oportunidades INVESTIDOR (Sucesso com Investidor)
-# Cole o token gerado no Login 3
-GET http://localhost:3333/api/auth/investidor-deals
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiZW1haWwiOiJpbnZlc3RpZG9yQG5leGh1Yi5jb20iLCJyb2xlIjoiSU5WRVNUSURPUiIsImlhdCI6MTc5MDAxNjU4NSwiZXhwIjoxNzkwMTAyOTg1fQ.eAOeDZoBaICzclYleUEzI3xkuD_IDk6TUXb_seFJEng
-
-### 7. Teste de Bloqueio RBAC (403 Forbidden)
-# Tente aceder à rota de Admin usando o token de STARTUP ou INVESTIDOR
-GET http://localhost:3333/api/auth/admin-only
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiZW1haWwiOiJpbnZlc3RpZG9yQG5leGh1Yi5jb20iLCJyb2xlIjoiSU5WRVNUSURPUiIsImlhdCI6MTc5MDAxNjU4NSwiZXhwIjoxNzkwMTAyOTg1fQ.eAOeDZoBaICzclYleUEzI3xkuD_IDk6TUXb_seFJEng
+### Startups
+GET {{base}}/startups?category=Todos&page=1&limit=20
+Authorization: Bearer {{login.response.body.access_token}}
