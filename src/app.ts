@@ -17,14 +17,18 @@ import {
   TERMS_VERSION,
 } from "./domain/catalog";
 const app = express();
+const frontendOrigins = [
+  "https://nexhub-alpha.vercel.app",
+  ...(process.env.FRONTEND_ORIGIN || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim()),
+];
 
 app.disable("x-powered-by");
 app.use(helmet());
 app.use(
   cors({
-    origin: (process.env.FRONTEND_ORIGIN || "http://localhost:5173")
-      .split(",")
-      .map((v) => v.trim()),
+    origin: frontendOrigins,
   }),
 );
 app.use(express.json({ limit: "100kb" }));
