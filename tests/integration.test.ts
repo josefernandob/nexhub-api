@@ -21,6 +21,13 @@ test("preflight permite o frontend publicado no cadastro", async () => {
     );
 });
 
+test("API aceita X-Forwarded-For do proxy do Render", async () => {
+  await request(app)
+    .get("/api/catalog")
+    .set("X-Forwarded-For", "203.0.113.10")
+    .expect(200);
+});
+
 test("fluxo persistente: cadastro, moderação, recomendação, conexão, conversa e reunião", async () => {
   const ids: string[] = [];
   const profileIds: string[] = [];

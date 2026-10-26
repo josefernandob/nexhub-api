@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { calculateMatch } from "../src/domain/matchmaking";
-import { registerSchema, password } from "../src/domain/validation";
+import { registerSchema, password, optionalUrl } from "../src/domain/validation";
 const startup = {
   sectors: ["IA"],
   stage: "MVP",
@@ -77,4 +77,7 @@ test("cadastro não pode promover usuário a administrador", () => {
 });
 test("senha bcrypt respeita limite em bytes também em UTF-8", () => {
   assert.equal(password.safeParse("á".repeat(40)).success, false);
+});
+test("URL inválida é rejeitada sem lançar erro interno", () => {
+  assert.equal(optionalUrl.safeParse("link-invalido").success, false);
 });

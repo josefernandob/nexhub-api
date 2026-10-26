@@ -17,6 +17,7 @@ import {
   TERMS_VERSION,
 } from "./domain/catalog";
 const app = express();
+app.set("trust proxy", 1);
 const frontendOrigins = [
   "https://nexhub-alpha.vercel.app",
   ...(process.env.FRONTEND_ORIGIN || "http://localhost:5173")

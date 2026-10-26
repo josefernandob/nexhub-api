@@ -15,7 +15,13 @@ export const email = z.string().trim().toLowerCase().email().max(254);
 const https = z
   .string()
   .url()
-  .refine((v) => new URL(v).protocol === "https:", "Use um link HTTPS.");
+  .refine((v) => {
+    try {
+      return new URL(v).protocol === "https:";
+    } catch {
+      return false;
+    }
+  }, "Use um link HTTPS.");
 export const optionalUrl = z.union([https.max(2048), z.literal("")]).optional();
 export const registerSchema = z
   .object({
